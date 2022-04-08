@@ -1,0 +1,32 @@
+{
+  "name": "smartedu",
+  "version": "1.0.0",
+  "description": "Educational Portal",
+  "main": "app.js",
+  "scripts": {
+    "local-start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jokerinya/SmartEdu.git"
+  },
+  "keywords": [
+    "education",
+    "portal",
+    "node.js"
+  ],
+  "author": "Ibrahim Sakaci <sakacibrahim@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jokerinya/SmartEdu/issues"
+  },
+  "homepage": "https://github.com/jokerinya/SmartEdu#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
