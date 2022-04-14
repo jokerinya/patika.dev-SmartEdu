@@ -1,4 +1,5 @@
 const Course = require('../models/Course');
+const Category = require('../models/Category');
 
 exports.createCourse = async (req, res) => {
   try {
@@ -17,8 +18,21 @@ exports.createCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find().sort('-createdAt');
-    res.status(200).render('courses', { page_name: 'courses', courses });
+    // if there is any filter check it
+    const categorySlug = req.query.categories; // http://localhost/courses?categories=categorySlug
+    const category = await Category.findOne({ slug: categorySlug });
+    let filter = {};
+    if (categorySlug && category) {
+      filter = { category: category._id };
+    }
+
+    const courses = await Course.find(filter);
+    const categories = await Category.find().sort('name');
+    res.status(200).render('courses', {
+      page_name: 'courses',
+      courses,
+      categories: categories,
+    });
   } catch (error) {
     res.status(400).json({
       status: 'error',
