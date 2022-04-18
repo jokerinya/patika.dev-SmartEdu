@@ -5,9 +5,11 @@
 <div class="all-title-box">
   <div class="container text-center">
     <h1>
-      <%= user.name %><span class="m_1"
-        >Lorem Ipsum dolroin gravida nibh vel velit.</span
-      >
+      <%= user.name %> <% if(user.role ==='student') { %>
+      <span class="m_1">STUDENT</span>
+      <% } else if(user.role ==='teacher') { %>
+      <span class="m_1">TEACHER</span>
+      <% } %>
     </h1>
   </div>
 </div>
