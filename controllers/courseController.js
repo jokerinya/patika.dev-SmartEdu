@@ -3,7 +3,12 @@ const Category = require('../models/Category');
 
 exports.createCourse = async (req, res) => {
   try {
-    const course = await Course.create(req.body);
+    const course = await Course.create({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      user: req.session.userID,
+    });
     res.status(201).redirect('/courses');
   } catch (error) {
     res.status(400).json({
@@ -23,7 +28,9 @@ exports.getAllCourses = async (req, res) => {
       filter = { category: category._id };
     }
 
-    const courses = await Course.find(filter).sort('-createdAt');
+    const courses = await Course.find(filter)
+      .populate('user')
+      .sort('-createdAt');
     const categories = await Category.find().sort('name');
     res.status(200).render('courses', {
       page_name: 'courses',
@@ -40,7 +47,9 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
   try {
-    const course = await Course.findOne({ slug: req.params.slug });
+    const course = await Course.findOne({ slug: req.params.slug }).populate(
+      'user'
+    );
     res.status(200).render('course-single', { page_name: 'courses', course });
   } catch (error) {
     res.status(400).json({

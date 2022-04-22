@@ -26,6 +26,10 @@ const CourseSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category', // referance is the name of other model
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // referance is the name of other model
+  },
 });
 
 // before saving to db, we will use a middleware
