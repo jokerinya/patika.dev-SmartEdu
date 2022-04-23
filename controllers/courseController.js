@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
 const Category = require('../models/Category');
+const User = require('../models/User');
 
 exports.createCourse = async (req, res) => {
   try {
@@ -29,8 +30,8 @@ exports.getAllCourses = async (req, res) => {
     }
 
     const courses = await Course.find(filter)
-      .populate('user')
-      .sort('-createdAt');
+      .sort('-createdAt')
+      .populate('user');
     const categories = await Category.find().sort('name');
     res.status(200).render('courses', {
       page_name: 'courses',
@@ -51,6 +52,21 @@ exports.getCourse = async (req, res) => {
       'user'
     );
     res.status(200).render('course-single', { page_name: 'courses', course });
+  } catch (error) {
+    res.status(400).json({
+      status: 'error',
+      error,
+    });
+  }
+};
+
+exports.enrollCourse = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userID);
+    await user.courses.push(req.body.course); // this is not
+    await user.save();
+
+    res.status(200).redirect('/users/dashboard');
   } catch (error) {
     res.status(400).json({
       status: 'error',
