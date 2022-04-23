@@ -51,7 +51,12 @@ exports.getCourse = async (req, res) => {
     const course = await Course.findOne({ slug: req.params.slug }).populate(
       'user'
     );
-    res.status(200).render('course-single', { page_name: 'courses', course });
+    const user = await User.findById(req.session.userID);
+    res.status(200).render('course-single', {
+      page_name: 'courses',
+      course,
+      user,
+    });
   } catch (error) {
     res.status(400).json({
       status: 'error',
@@ -63,7 +68,22 @@ exports.getCourse = async (req, res) => {
 exports.enrollCourse = async (req, res) => {
   try {
     const user = await User.findById(req.session.userID);
-    await user.courses.push(req.body.course); // this is not
+    await user.courses.push({ _id: req.body.course }); // mongoose helper
+    await user.save();
+
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    res.status(400).json({
+      status: 'error',
+      error,
+    });
+  }
+};
+
+exports.releseCourse = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userID);
+    await user.courses.pull({ _id: req.body.course }); // mongoose helper
     await user.save();
 
     res.status(200).redirect('/users/dashboard');

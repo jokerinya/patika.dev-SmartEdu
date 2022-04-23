@@ -40,6 +40,12 @@
             </div>
             <div class="course-desc">
               <p><%= course.description %></p>
+              <form action="/courses/release" method="post">
+                <input type="hidden" name="course" value="<%= course._id %>" />
+                <button class="btn btn-lg btn-danger text-white">
+                  <span>RELEASE</span>
+                </button>
+              </form>
             </div>
           </div>
         </div>
