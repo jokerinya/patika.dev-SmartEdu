@@ -23,13 +23,31 @@ exports.getAllCourses = async (req, res) => {
   try {
     // if there is any filter check it
     const categorySlug = req.query.categories; // http://localhost/courses?categories=categorySlug
+
+    // Seach paramaters in the request
+    const query = req.query.search; // http://localhost/courses?search=query
+
     const category = await Category.findOne({ slug: categorySlug });
     let filter = {};
     if (categorySlug && category) {
       filter = { category: category._id };
     }
 
-    const courses = await Course.find(filter)
+    if (query) {
+      filter = { name: query };
+    }
+
+    if (!query && !categorySlug) {
+      filter.name = '';
+      filter.categories = null;
+    }
+    const courses = await Course.find({
+      $or: [
+        // case insensetive search for entered name
+        { name: { $regex: '.*' + filter.name + '.*', $options: 'i' } },
+        { category: filter.category },
+      ],
+    })
       .sort('-createdAt')
       .populate('user');
     const categories = await Category.find().sort('name');
@@ -52,10 +70,12 @@ exports.getCourse = async (req, res) => {
       'user'
     );
     const user = await User.findById(req.session.userID);
+    const categories = await Category.find().sort('name');
     res.status(200).render('course-single', {
       page_name: 'courses',
       course,
       user,
+      categories,
     });
   } catch (error) {
     res.status(400).json({
