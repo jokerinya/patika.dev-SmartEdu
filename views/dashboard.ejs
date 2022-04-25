@@ -39,7 +39,7 @@
               </h2>
             </div>
             <div class="course-desc">
-              <p><%= course.description %></p>
+              <p><%= course.description.substring(0, 150) %>...</p>
               <form action="/courses/release" method="post">
                 <input type="hidden" name="course" value="<%= course._id %>" />
                 <button class="btn btn-lg btn-danger text-white">
@@ -112,7 +112,7 @@
               </h2>
             </div>
             <div class="course-desc">
-              <p><%= course.description %></p>
+              <p><%= course.description.substring(0, 150) %>...</p>
             </div>
           </div>
         </div>
