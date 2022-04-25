@@ -30,6 +30,8 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "mongoose": "^6.2.10",
+    "nodemailer": "^6.7.3",
+    "request": "^2.88.2",
     "slugify": "^1.6.5"
   },
   "devDependencies": {
