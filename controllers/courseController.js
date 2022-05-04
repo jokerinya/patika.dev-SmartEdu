@@ -129,3 +129,20 @@ exports.deleteCourse = async (req, res) => {
     });
   }
 };
+
+exports.updateCourse = async (req, res) => {
+  try {
+    console.log('burada');
+    const course = await Course.findOne({ slug: req.params.slug });
+    course.name = req.body.name;
+    course.description = req.body.description;
+    course.category = req.body.category;
+    course.save();
+
+    req.flash('success', `${course.name} has been updated successfully`);
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    req.flash('error', `An Error occured, please try again later`);
+    res.status(200).redirect('/users/dashboard');
+  }
+};
