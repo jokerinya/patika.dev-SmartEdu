@@ -32,6 +32,9 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
   const user = this;
+  // this if block is very important, it prevents to rehash password everytime model change
+  if (!user.isModified('password')) return next();
+
   bcrypt.hash(user.password, 10, (error, hash) => {
     user.password = hash;
     next();

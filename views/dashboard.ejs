@@ -96,7 +96,15 @@
       <!-- end col -->
     </div>
     <!-- end row -->
-    <% for (const course of courses) { %>
+    <% if (flashMessages) { %>
+    <!-- flash message rendering -->
+    <% if (flashMessages.success) { %>
+    <div class="alert alert-success"><%= flashMessages.success %></div>
+    <% } else if (flashMessages.error) { %>
+    <div class="alert alert-danger"><%= flashMessages.error %></div>
+    <% } %>
+    <!-- end flash message rendering -->
+    <% } %> <% for (const course of courses) { %>
     <div class="row mt-5">
       <div class="col-lg-6 col-md-6 col-12">
         <div class="course-item mb-5">
@@ -113,6 +121,23 @@
             </div>
             <div class="course-desc">
               <p><%= course.description.substring(0, 150) %>...</p>
+            </div>
+            <div class="clearfix">
+              <ul style="list-style-type: none">
+                <li style="float: left">
+                  <button class="btn btn-primary rounded-0 text-white">
+                    <span>UPDATE</span>
+                  </button>
+                </li>
+                <li style="float: right">
+                  <a
+                    href="/courses/<%= course.slug %>?_method=DELETE"
+                    onclick="return confirm('ARE YOU SURE')"
+                    class="btn btn-danger rounded-0 text-white"
+                    ><span>DELETE</span></a
+                  >
+                </li>
+              </ul>
             </div>
           </div>
         </div>

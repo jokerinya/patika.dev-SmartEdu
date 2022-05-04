@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -52,6 +53,13 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
+// method override for browser requests
+app.use(
+  // url will be '?_method='
+  methodOverride('_method', {
+    methods: ['POST', 'GET'], // also override post and get requests
+  })
+);
 
 //Routes
 // checks and adds value to userIN variable
