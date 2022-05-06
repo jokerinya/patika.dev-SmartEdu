@@ -58,16 +58,31 @@ exports.logoutUser = async (req, res) => {
   });
 };
 
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    // if deleted user is a teacher delete her courses too
+    await Course.deleteMany({ user: req.params.id });
+    req.flash('success', 'User has been deleted successfully!');
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    req.flash('error', 'An Error Occured Please Try Again Later!');
+    res.status(400).redirect('/users/dashboard');
+  }
+};
+
 exports.getDashboardPage = async (req, res) => {
   try {
     const user = await User.findById(req.session.userID).populate('courses');
     const categories = await Category.find();
     const courses = await Course.find({ user }); // Teacher uses this.
+    const users = await User.find(); // admin uses
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
       user,
       categories,
       courses,
+      users,
     });
   } catch (error) {
     res.status(400).json({

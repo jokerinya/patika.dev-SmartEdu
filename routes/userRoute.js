@@ -23,6 +23,7 @@ router.route('/signup').post(
 ); //http://localhost:3000/users/signup
 router.route('/login').post(authController.loginUser);
 router.route('/logout').get(authController.logoutUser);
+router.route('/:id').delete(authMiddleware, authController.deleteUser);
 router.route('/dashboard').get(authMiddleware, authController.getDashboardPage); //http://localhost:3000/users/dashboard
 
 module.exports = router;

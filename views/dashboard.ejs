@@ -327,5 +327,80 @@
   </div>
 </div>
 <% } %>
+
+<!-- Admin -->
+<% if(user.role ==='admin') { %>
+<div class="all-title-box">
+  <div class="container text-center">
+    <h1>
+      <%= user.name %>
+      <span class="m_1">STUDENT</span>
+    </h1>
+  </div>
+</div>
+
+<div id="overviews" class="section wb">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 blog-post-single">
+        <div class="blog-author">
+          <div class="author-bio">
+            <h3 class="author_name">Courses Enrolled By: <%= user.name %></h3>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+    <!-- flash message rendering start -->
+    <% if (flashMessages) { %>
+    <!-- Inside Messages -->
+    <% if (flashMessages.success) { %>
+    <div class="alert alert-success"><%= flashMessages.success %></div>
+    <% } else if (flashMessages.error) { %>
+    <div class="alert alert-danger"><%= flashMessages.error %></div>
+    <% } %>
+    <!-- Inside Messages -->
+    <% } %>
+    <!-- flash message rendering end -->
+
+    <!-- end flash message rendering -->
+
+    <div class="row mt-5">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const user of users) { %>
+          <tr>
+            <th scope="row"><%= user._id %></th>
+            <td><%= user.email %></td>
+            <td><%= user.role %></td>
+            <td>
+              <a
+                href="/users/<%= user._id %>?_method=DELETE"
+                onclick="return confirm('ARE YOU SURE')"
+                class="btn btn-danger rounded-0 text-white"
+                ><span>DELETE</span></a
+              >
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container -->
+</div>
+<!-- end section -->
+<% } %>
 <!--  -->
 <%- include('partials/_footer'); %>
