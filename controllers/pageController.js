@@ -1,9 +1,19 @@
 const nodemailer = require('nodemailer');
+const Course = require('../models/Course');
+const User = require('../models/User');
 
 exports.getIndexPage = async (req, res) => {
   console.log(req.session.userID);
+  const lastTwoCourses = await Course.find().sort('-createdAt').limit(2);
+  const totalCourses = await Course.find().countDocuments();
+  const totalStudents = await User.find({ role: 'student' }).countDocuments();
+  const totalTeachers = await User.find({ role: 'teacher' }).countDocuments();
   res.status(200).render('index', {
     page_name: 'index',
+    courses: lastTwoCourses,
+    totalCourses,
+    totalStudents,
+    totalTeachers,
   });
 };
 
@@ -28,6 +38,7 @@ exports.getLoginPage = async (req, res) => {
 exports.getContactPage = async (req, res) => {
   res.status(200).render('contact', {
     page_name: 'contact',
+    recaptcha_site_key: process.env.RECAPTCHA_SITE_KEY,
   });
 };
 

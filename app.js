@@ -19,7 +19,7 @@ const app = express();
 // Connect DB
 (async () => {
   try {
-    await mongoose.connect(process.env.LOCAL_TEST_DB);
+    await mongoose.connect(process.env.REAL_DB);
     console.log('Connected to DB');
   } catch (error) {
     console.log(error);
