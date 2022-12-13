@@ -18,12 +18,12 @@ const app = express();
 
 // Connect DB
 (async () => {
-  try {
-    await mongoose.connect(process.env.REAL_DB);
-    console.log('Connected to DB');
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        await mongoose.connect(process.env.REAL_DB);
+        console.log('Connected to DB');
+    } catch (error) {
+        console.log(error);
+    }
 })();
 
 // Template engine
@@ -40,32 +40,32 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // session
 app.use(
-  session({
-    secret: 'jokerinya_keyboard_cat',
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.LOCAL_TEST_DB }),
-  })
+    session({
+        secret: 'jokerinya_keyboard_cat',
+        resave: false,
+        saveUninitialized: true,
+        store: MongoStore.create({ mongoUrl: process.env.REAL_DB }),
+    })
 );
 // flash messages
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.flashMessages = req.flash();
-  next();
+    res.locals.flashMessages = req.flash();
+    next();
 });
 // method override for browser requests
 app.use(
-  // url will be '?_method='
-  methodOverride('_method', {
-    methods: ['POST', 'GET'], // also override post and get requests
-  })
+    // url will be '?_method='
+    methodOverride('_method', {
+        methods: ['POST', 'GET'], // also override post and get requests
+    })
 );
 
 //Routes
 // checks and adds value to userIN variable
 app.use('*', (req, res, next) => {
-  userIN = req.session.userID;
-  next();
+    userIN = req.session.userID;
+    next();
 });
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
@@ -75,5 +75,5 @@ app.use('/users', userRoute);
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Server Listening At Port Number ${port}`);
+    console.log(`Server Listening At Port Number ${port}`);
 });
