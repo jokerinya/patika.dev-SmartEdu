@@ -2,7 +2,9 @@
 
 This is a self-learning small project that has been done with <a href="https://www.patika.dev/" target="_blank">patika.dev</a> `NodeJs` course.
 
-👉This site is online at <a href="https://jokerinya-smart-edu.herokuapp.com/" target="_blank">here</a> (heroku platform). `MongoDB` have been used for DB.
+👉This site is online at ~<a href="https://jokerinya-smart-edu.herokuapp.com/" target="_blank">here</a> (heroku platform)~ <a href="https://jokerinya-smartedu.onrender.com/" target="_blank">here</a> (render platform).
+
+`MongoDB` have been used for DB.
 
 ![Capture.PNG](Capture.PNG)
 
@@ -45,4 +47,4 @@ Of course not all of them has been showed in the course content. In addition to 
 - All the uncessary pages that were in the template has been cleaned,
 - `dotenv` package has been added for credentials,
 - `recaptcha` feature has been added for mail sending feature for **_safety reasons_**
-  <a href="https://jokerinya-smart-edu.herokuapp.com/contact" target="_blank">👉try it.</a>
+  <a href="https://jokerinya-smartedu.onrender.com/contact" target="_blank">👉try it.</a>
